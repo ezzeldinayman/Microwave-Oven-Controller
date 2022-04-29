@@ -195,9 +195,9 @@ void DIO_vWritePin(unsigned char portname, unsigned char pinnumber, unsigned cha
 
 /*----------------------------------------------------------------------------------*/
 
-unsigned long DIO_u32ReadPin(unsigned char portname, unsigned char pinnumber)
+unsigned char DIO_u8ReadPin(unsigned char portname, unsigned char pinnumber)
 {
-		unsigned long returnValue;
+		unsigned char returnValue;
 		switch(portname)
 		{
 			case 'A':
