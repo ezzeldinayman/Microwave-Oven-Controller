@@ -1,6 +1,6 @@
 #include "standard_macros.h"
 #include "tm4c123gh6pm.h"
-
+#include "ARM_DIO.h"
 
 void DIO_vInitPort(unsigned char portname)
 {
@@ -13,7 +13,11 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,0)==0);
 				GPIO_PORTA_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTA_CR_R = 0xFF;
+				GPIO_PORTA_AFSEL_R = 0x00;
+				GPIO_PORTA_AMSEL_R = 0x00;
+				GPIO_PORTA_PCTL_R = 0x00;
 				GPIO_PORTA_DEN_R = 0xFF;
+				
 			}
 			break;
 			
@@ -24,6 +28,9 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,1)==0);
 				GPIO_PORTB_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTB_CR_R = 0xFF;
+				GPIO_PORTB_AFSEL_R = 0x00;
+				GPIO_PORTB_AMSEL_R = 0x00;
+				GPIO_PORTB_PCTL_R = 0x00;
 				GPIO_PORTB_DEN_R = 0xFF;
 			}
 			break;
@@ -35,7 +42,11 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,2)==0);
 				GPIO_PORTC_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTC_CR_R = 0xFF;
+				GPIO_PORTC_AFSEL_R = 0x00;
+				GPIO_PORTC_AMSEL_R = 0x00;
+				GPIO_PORTC_PCTL_R = 0x00;
 				GPIO_PORTC_DEN_R = 0xFF;
+				
 			}
 			break;
 			
@@ -46,7 +57,11 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,3)==0);
 				GPIO_PORTD_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTD_CR_R = 0xFF;
+				GPIO_PORTD_AFSEL_R = 0x00;
+				GPIO_PORTD_AMSEL_R = 0x00;
+				GPIO_PORTD_PCTL_R = 0x00;
 				GPIO_PORTD_DEN_R = 0xFF;
+				
 			}
 			break;
 			
@@ -57,6 +72,9 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,4)==0);
 				GPIO_PORTE_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTE_CR_R = 0x1F;
+				GPIO_PORTE_AFSEL_R = 0x00;
+				GPIO_PORTE_AMSEL_R = 0x00;
+				GPIO_PORTE_PCTL_R = 0x00;
 				GPIO_PORTE_DEN_R = 0x1F;
 			}
 			break;
@@ -68,7 +86,11 @@ void DIO_vInitPort(unsigned char portname)
 				while(READ_BIT(SYSCTL_RCGCGPIO_R,5)==0);
 				GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;
 				GPIO_PORTF_CR_R = 0x1F;
+				GPIO_PORTF_AFSEL_R = 0x00;
+				GPIO_PORTF_AMSEL_R = 0x00;
+				GPIO_PORTF_PCTL_R = 0x00;
 				GPIO_PORTF_DEN_R = 0x1F;
+				
 			}
 			break;
 			
@@ -499,7 +521,7 @@ void DIO_vWriteHighNibble(unsigned char portname, unsigned long value)
 			case 'A':
 			case 'a':
 			{
-				GPIO_PORTA_DATA_R &= 0xFF0F; 
+				GPIO_PORTA_DATA_R &= 0x0F; 
 				GPIO_PORTA_DATA_R |= value;
 			}
 			break;
@@ -507,7 +529,7 @@ void DIO_vWriteHighNibble(unsigned char portname, unsigned long value)
 			case 'B':
 			case 'b':
 			{
-				GPIO_PORTB_DATA_R &= 0xFF0F; 
+				GPIO_PORTB_DATA_R &= 0x0F; 
 				GPIO_PORTB_DATA_R |= value;
 			}
 			break;
@@ -515,7 +537,7 @@ void DIO_vWriteHighNibble(unsigned char portname, unsigned long value)
 			case 'C':
 			case 'c':
 			{
-				GPIO_PORTC_DATA_R &= 0xFF0F; 
+				GPIO_PORTC_DATA_R &= 0x0F; 
 				GPIO_PORTC_DATA_R |= value;
 			}
 			break;
@@ -523,7 +545,7 @@ void DIO_vWriteHighNibble(unsigned char portname, unsigned long value)
 			case 'D':
 			case 'd':
 			{
-				GPIO_PORTD_DATA_R &= 0xFF0F; 
+				GPIO_PORTD_DATA_R &= 0x0F; 
 				GPIO_PORTD_DATA_R |= value;
 			}
 			break;
@@ -538,7 +560,7 @@ void DIO_vWriteLowNibble(unsigned char portname, unsigned long value)
 			case 'A':
 			case 'a':
 			{
-				GPIO_PORTA_DATA_R &= 0xFFF0; 
+				GPIO_PORTA_DATA_R &= 0xF0; 
 				GPIO_PORTA_DATA_R |= value;
 			}
 			break;
@@ -546,7 +568,7 @@ void DIO_vWriteLowNibble(unsigned char portname, unsigned long value)
 			case 'B':
 			case 'b':
 			{
-				GPIO_PORTB_DATA_R &= 0xFFF0; 
+				GPIO_PORTB_DATA_R &= 0xF0; 
 				GPIO_PORTB_DATA_R |= value;
 			}
 			break;
@@ -554,7 +576,7 @@ void DIO_vWriteLowNibble(unsigned char portname, unsigned long value)
 			case 'C':
 			case 'c':
 			{
-				GPIO_PORTC_DATA_R &= 0xFFF0; 
+				GPIO_PORTC_DATA_R &= 0xF0; 
 				GPIO_PORTC_DATA_R |= value;
 			}
 			break;
@@ -562,7 +584,7 @@ void DIO_vWriteLowNibble(unsigned char portname, unsigned long value)
 			case 'D':
 			case 'd':
 			{
-				GPIO_PORTD_DATA_R &= 0xFFF0; 
+				GPIO_PORTD_DATA_R &= 0xF0; 
 				GPIO_PORTD_DATA_R |= value;
 			}
 			break;
