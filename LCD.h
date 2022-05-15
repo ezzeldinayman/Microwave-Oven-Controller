@@ -8,6 +8,7 @@ void LCD_vSend_Char(char character);
 void LCD_vSend_String(char *data);
 void LCD_ClearScreen(void);
 void LCD_MoveCursor(char row, char column);
+void LCD_ClearRow(char row);
 
 
 #endif

@@ -1,7 +1,7 @@
 #include "ARM_DIO.h"
+#define KPORT 'B'
 
-
-void Keypad_vInit(unsigned char KPORT)
+void Keypad_vInit()
 {
 		DIO_vSetPortDir(KPORT,0x0F); //P4 to P7 are input & P0 to P3 are output
 		DIO_vEnablePullUp(KPORT,7);
@@ -11,13 +11,13 @@ void Keypad_vInit(unsigned char KPORT)
 }
 
 
-unsigned char Keypad_u8Read(unsigned char KPORT)
+unsigned char Keypad_u8Read()
 {
 		unsigned char ascii[4][4] = {
-																{'7','8','9','/'},
-																{'4','5','6','x'},
-																{'1','2','3','-'},
-																{'A','0','=','+'}
+																{'1','2','3','A'},
+																{'4','5','6','B'},
+																{'7','8','9','C'},
+																{'*','0','#','D'}
 																};
 		char row,col,x;
 		char return_value = 0xFF;
