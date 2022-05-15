@@ -1,6 +1,6 @@
 #include "standard_macros.h"
 #include "ARM_DIO.h"
-#include "Systick.h"
+#include "Delay.h"
 #include "LCD_CONFIG.h"
 #include "LCD.h"
 
@@ -25,7 +25,7 @@ void LCD_vInit(void)
 	_delay_ms(1);
 	LCD_vSend_CMD(CLR_SCREEN);
 	_delay_ms(10);
-	
+
 }
 
 static void SendPulse(void)
@@ -85,7 +85,7 @@ void LCD_MoveCursor(char row, char column)
 	}
 	LCD_vSend_CMD(pos);
 	_delay_ms(1);
-	
+
 }
 
 void LCD_ClearScreen(void)
@@ -100,5 +100,4 @@ void LCD_ClearRow(char row)
 	 LCD_vSend_String("               ");
 	 LCD_MoveCursor(row,1);
  }
- 
- 
+
