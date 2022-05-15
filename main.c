@@ -110,6 +110,37 @@ int main(void)
 				}
 			}
 			break;
+
+			case COOKING:
+			{
+				LCD_ClearRow(1);
+				LCD_vSend_String(ModeText);
+				char doorFlag = 1;
+				ConvertToSecond();
+				while (totalSeconds >= 0)
+				{
+					UpdateTime();
+					DisplayTime();
+					doorFlag = CheckDoor();
+					if (doorFlag == 1)
+					{
+						LCD_ClearRow(1);
+						LCD_vSend_String("PAUSED");
+						State = PAUSED;
+						break;
+					}
+					if (PAUSE_BUTTON == 0)
+					{
+						State = PAUSED;
+						_delay_ms(250);
+						LCD_ClearRow(1);
+						LCD_vSend_String("PAUSED");
+						break;
+					}
+				}
+				if (State != PAUSED) State = IDLE;
+			}
+			break;
 			
 		}
 	}
