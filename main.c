@@ -24,6 +24,95 @@ void UpdateTime();
 
 int main(void)
 {
+	LCD_vInit();
+	Keypad_vInit();
+	Systick_vInitInterrupt();
+	Button_vInitPullUp('F',0);
+	Button_vInitPullUp('F',4);
+	Button_vInitPullUp('A',2);
+	LED_vInit('F',1);
+	LED_vInit('F',2);
+	LED_vInit('F',3);
+	
+	char Mode;
+	char* ModeText;
+	char kilos=0;
+
+	while(1)
+	{
+		switch(State)
+		{
+			case IDLE:
+			{
+				reset:
+				LCD_ClearScreen();
+				LCD_vSend_String("Enter Mode: ");
+				Mode = ReadMode();
+				LCD_vSend_Char(Mode);
+				_delay_ms(500);
+				
+				ModeProcess:
+				
+				switch(Mode)
+				{
+					case 'A':
+					{
+						MINUTES = 1;
+						SECONDS = 0;
+						labelA:
+						LCD_ClearScreen();
+						ModeText = "Popcorn";
+						
+						DisplayTime();
+						LCD_ClearScreen();
+						LCD_vSend_String(ModeText);
+						
+						do
+						{
+							DisplayTime();
+							if(PAUSE_BUTTON==0) goto reset;
+						} while (START_BUTTON==1);
+						
+					}
+					break;
+					
+					case 'B':
+					case 'C':
+					{
+						State = ENTERWEIGHT;
+					}
+					break;
+					
+					case 'D':
+					{
+						State = ENTERTIME;
+					}
+					break;
+					
+					default:
+					{
+						LCD_ClearScreen();
+						LCD_vSend_String("Invalid Mode");
+						_delay_ms(500);
+						
+						goto reset;
+					}
+				}
+				
+				
+				if(CheckDoor()==0 && State == IDLE) State = COOKING;
+				else if(CheckDoor()==1 && State == IDLE)
+				{
+					LCD_MoveCursor(1,1);
+					LCD_vSend_String("Close The Door");
+					_delay_ms(1000);
+					if(Mode == 'A') goto labelA;
+				}
+			}
+			break;
+			
+		}
+	}
 	
 }
 
