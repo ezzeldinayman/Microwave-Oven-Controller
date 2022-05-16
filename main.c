@@ -142,6 +142,41 @@ int main(void)
 			}
 			break;
 			
+			case ENTERWEIGHT:
+			{
+				Repeat:
+				LCD_ClearScreen();
+				kilos = EnterWeight(Mode);
+				if(kilos>9 || kilos<1)
+				{
+					LCD_ClearScreen();
+					LCD_vSend_String("Err");
+					_delay_ms(2000);
+					goto Repeat;
+				}
+				else if(State == IDLE) break;
+				else
+				{
+					_delay_ms(2000);
+					CalculateTime(Mode,kilos);
+					if(Mode == 'B') ModeText = "Beef";
+					else ModeText = "Chicken";
+					UpdateTime();
+					DisplayTime();
+					LCD_ClearScreen();
+					LCD_vSend_String(ModeText);
+					
+					do
+					{
+						DisplayTime();
+						if(PAUSE_BUTTON==0) goto reset;
+					} while (START_BUTTON==1);
+					State = COOKING;
+				}			
+			}
+			break;
+			
+			
 		}
 	}
 	
