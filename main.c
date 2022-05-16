@@ -21,6 +21,7 @@ volatile unsigned char time[2];
 void ConvertToSecond();
 void DisplayTime();
 void UpdateTime();
+char EnterWeight(char Mode);
 
 int main(void)
 {
@@ -180,6 +181,38 @@ int main(void)
 		}
 	}
 	
+}
+
+
+
+char EnterWeight(char Mode)
+{
+	char kilos;
+	if(Mode == 'B')
+	{
+		LCD_ClearScreen();
+		LCD_vSend_String("Beef Weight?");
+		LCD_MoveCursor(2,1);
+	}
+	else
+	{
+		LCD_ClearScreen();
+		LCD_vSend_String("Chicken Weight?");
+		LCD_MoveCursor(2,1);
+	}
+
+	do
+	{
+		kilos = Keypad_u8Read();
+		if(PAUSE_BUTTON == 0)
+		{
+			State = IDLE;
+			break;
+		}
+	} while (kilos == 0xFF);
+
+	LCD_vSend_Char(kilos);
+	return (kilos-'0');
 }
 
 void DisplayTime()
