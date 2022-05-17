@@ -177,7 +177,16 @@ int main(void)
 			}
 			break;
 			
-			
+			case PAUSED:
+			{
+				
+				DisplayTime();
+				if(START_BUTTON == 0) State = COOKING;
+				else if(PAUSE_BUTTON == 0) State = IDLE;
+				else State=PAUSED;
+				
+			}
+			break;
 		}
 	}
 	
@@ -234,6 +243,39 @@ void UpdateTime()
 {
 	MINUTES = totalSeconds/60;
 	SECONDS = totalSeconds - (MINUTES*60);
+}
+
+
+void CalculateTime(char Mode, char kilos)
+{
+	if(Mode == 'B')
+	{
+		totalSeconds = kilos*30;
+	}
+	else if(Mode == 'C')
+	{
+		totalSeconds = kilos*12;
+	}
+}
+
+char CheckDoor()
+{
+	if(DOOR_BUTTON==1)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+char ReadMode()
+{
+	char x;
+	do 
+	{
+		x = Keypad_u8Read();
+	} while (x == 0xFF);
+	
+	return x;
 }
 
 void SysTick_Handler(void)
