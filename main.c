@@ -270,6 +270,31 @@ void EnterTime()
 				(*(inputTime+i)) = x-'0';
 				switch(i)
 				{
+					case 0:
+					{
+						SECONDS = (*inputTime);
+						break;
+					}
+					case 1:
+					{
+						SECONDS = (inputTime) * 10 + ((inputTime + 1));
+						break;
+					}
+
+					case 2:
+					{
+						MINUTES = (*inputTime);
+						SECONDS = ((inputTime + 1)) * 10 + ((inputTime + 2));
+						break;
+
+					}
+
+					case 3:
+					{
+						MINUTES = (*(inputTime + 1)) + (*inputTime) * 10;
+						SECONDS = ((inputTime + 2)) * 10 + ((inputTime + 3));
+						break;
+					}
 					default: break;
 			}
 			if(Start == 0) break;
