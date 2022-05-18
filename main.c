@@ -34,7 +34,7 @@ int main(void)
 	LED_vInit('F',1);
 	LED_vInit('F',2);
 	LED_vInit('F',3);
-	
+
 	char Mode;
 	char* ModeText;
 	char kilos=0;
@@ -51,9 +51,9 @@ int main(void)
 				Mode = ReadMode();
 				LCD_vSend_Char(Mode);
 				_delay_ms(500);
-				
+
 				ModeProcess:
-				
+
 				switch(Mode)
 				{
 					case 'A':
@@ -63,44 +63,44 @@ int main(void)
 						labelA:
 						LCD_ClearScreen();
 						ModeText = "Popcorn";
-						
+
 						DisplayTime();
 						LCD_ClearScreen();
 						LCD_vSend_String(ModeText);
-						
+
 						do
 						{
 							DisplayTime();
 							if(PAUSE_BUTTON==0) goto reset;
 						} while (START_BUTTON==1);
-						
+
 					}
 					break;
-					
+
 					case 'B':
 					case 'C':
 					{
 						State = ENTERWEIGHT;
 					}
 					break;
-					
+
 					case 'D':
 					{
 						State = ENTERTIME;
 					}
 					break;
-					
+
 					default:
 					{
 						LCD_ClearScreen();
 						LCD_vSend_String("Invalid Mode");
 						_delay_ms(500);
-						
+
 						goto reset;
 					}
 				}
-				
-				
+
+
 				if(CheckDoor()==0 && State == IDLE) State = COOKING;
 				else if(CheckDoor()==1 && State == IDLE)
 				{
@@ -142,7 +142,7 @@ int main(void)
 				if (State != PAUSED) State = IDLE;
 			}
 			break;
-			
+
 			case ENTERWEIGHT:
 			{
 				Repeat:
@@ -166,14 +166,14 @@ int main(void)
 					DisplayTime();
 					LCD_ClearScreen();
 					LCD_vSend_String(ModeText);
-					
+
 					do
 					{
 						DisplayTime();
 						if(PAUSE_BUTTON==0) goto reset;
 					} while (START_BUTTON==1);
 					State = COOKING;
-				}			
+				}
 			}
 			break;
 			case ENTERTIME:
@@ -189,20 +189,20 @@ int main(void)
 				State = COOKING;
 			}
 			break;
-			
+
 			case PAUSED:
 			{
-				
+
 				DisplayTime();
 				if(START_BUTTON == 0) State = COOKING;
 				else if(PAUSE_BUTTON == 0) State = IDLE;
 				else State=PAUSED;
-				
+
 			}
 			break;
 		}
 	}
-	
+
 }
 
 
@@ -251,7 +251,7 @@ void EnterTime()
 	char x;
 	for(i=0;i<4;i++)
 	{
-		do 
+		do
 		{
 			x = Keypad_u8Read();
 			Start = START_BUTTON;
@@ -265,7 +265,7 @@ void EnterTime()
 				LCD_MoveCursor(2,1);
 				continue;
 			}
-			else
+			else if(x!=0xFF)
 			{
 				(*(inputTime+i)) = x-'0';
 				switch(i)
@@ -303,7 +303,7 @@ void EnterTime()
 		DisplayTime();
 		_delay_ms(300);
 	}
-	
+
 	if(SECONDS>60 || MINUTES>30 || MINUTES<1)
 	{
 		LCD_ClearScreen();
@@ -358,11 +358,11 @@ char CheckDoor()
 char ReadMode()
 {
 	char x;
-	do 
+	do
 	{
 		x = Keypad_u8Read();
 	} while (x == 0xFF);
-	
+
 	return x;
 }
 
