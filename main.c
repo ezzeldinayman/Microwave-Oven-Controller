@@ -176,6 +176,19 @@ int main(void)
 				}			
 			}
 			break;
+			case ENTERTIME:
+			{
+				resetEnterTime:
+				EnterTime();
+				ModeText = "Cooking :)";
+				do
+				{
+					DisplayTime();
+					if(PAUSE_BUTTON==0) goto reset;
+				} while (START_BUTTON==1);
+				State = COOKING;
+			}
+			break;
 			
 			case PAUSED:
 			{
@@ -223,7 +236,57 @@ char EnterWeight(char Mode)
 	LCD_vSend_Char(kilos);
 	return (kilos-'0');
 }
-
+void EnterTime()
+{
+	EnterTimeAgain:
+	LCD_ClearScreen();
+	LCD_vSend_String("Cooking Time? ");
+	LCD_MoveCursor(2,1);
+	char inputTime[4] = {0,0,0,0};
+	char Start = 0;
+	SECONDS = 0;
+	MINUTES = 0;
+	DisplayTime();
+	char i;
+	char x;
+	for(i=0;i<4;i++)
+	{
+		do 
+		{
+			x = Keypad_u8Read();
+			Start = START_BUTTON;
+			if((x<'0' || x>'9') && x!= 0xFF)
+			{
+				LCD_ClearScreen();
+				LCD_vSend_String("Invalid");
+				_delay_ms(1000);
+				LCD_ClearScreen();
+				LCD_vSend_String("Cooking Time? ");
+				LCD_MoveCursor(2,1);
+				continue;
+			}
+			else
+			{
+				(*(inputTime+i)) = x-'0';
+				switch(i)
+				{
+					default: break;
+			}
+			if(Start == 0) break;
+		} while (x==0xFF);
+		if (Start == 0) break;
+		DisplayTime();
+		_delay_ms(300);
+	}
+	
+	if(SECONDS>60 || MINUTES>30 || MINUTES<1)
+	{
+		LCD_ClearScreen();
+		LCD_vSend_String("Invalid");
+		_delay_ms(1000);
+		goto EnterTimeAgain;
+	}
+}
 void DisplayTime()
 {
 	LCD_MoveCursor(2,1);
