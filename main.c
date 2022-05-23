@@ -18,9 +18,13 @@ volatile unsigned int totalSeconds=0;
 volatile unsigned int counter = 0;
 volatile unsigned char time[2];
 
-void ConvertToSecond();
-void DisplayTime();
-void UpdateTime();
+void ConvertToSecond(void);
+unsigned char ReadMode(void);
+void DisplayTime(void);
+void UpdateTime(void);
+char CheckDoor(void);
+void EnterTime(void);
+void CalculateTime(char Mode, char kilos);
 char EnterWeight(char Mode);
 
 int main(void)
@@ -148,14 +152,14 @@ int main(void)
 				Repeat:
 				LCD_ClearScreen();
 				kilos = EnterWeight(Mode);
-				if(kilos>9 || kilos<1)
+				if(State == IDLE) break;
+				else if(kilos>9 || kilos<1)
 				{
 					LCD_ClearScreen();
 					LCD_vSend_String("Err");
 					_delay_ms(2000);
 					goto Repeat;
 				}
-				else if(State == IDLE) break;
 				else
 				{
 					_delay_ms(2000);
@@ -174,8 +178,9 @@ int main(void)
 					} while (START_BUTTON==1);
 					State = COOKING;
 				}
+				break;
 			}
-			break;
+			
 			case ENTERTIME:
 			{
 				resetEnterTime:
@@ -236,19 +241,27 @@ char EnterWeight(char Mode)
 	LCD_vSend_Char(kilos);
 	return (kilos-'0');
 }
-void EnterTime()
+
+void EnterTime(void)
 {
+	char i;
+	char x;
+	char inputTime[4] = {0,0,0,0};
+	char Start;
 	EnterTimeAgain:
 	LCD_ClearScreen();
 	LCD_vSend_String("Cooking Time? ");
 	LCD_MoveCursor(2,1);
-	char inputTime[4] = {0,0,0,0};
-	char Start = 0;
+	inputTime[0] = 0;
+	inputTime[1] = 0;
+	inputTime[2] = 0;
+	inputTime[3] = 0;
+
+	Start = 0;
 	SECONDS = 0;
 	MINUTES = 0;
 	DisplayTime();
-	char i;
-	char x;
+
 	for(i=0;i<4;i++)
 	{
 		do
@@ -265,7 +278,8 @@ void EnterTime()
 				LCD_MoveCursor(2,1);
 				continue;
 			}
-			else if(x!=0xFF)
+			else if(PAUSE_BUTTON == 0) break;
+			else if(x != 0xFF)
 			{
 				(*(inputTime+i)) = x-'0';
 				switch(i)
@@ -277,34 +291,35 @@ void EnterTime()
 					}
 					case 1:
 					{
-						SECONDS = (inputTime) * 10 + ((inputTime + 1));
+						SECONDS = (*inputTime)*10 + (*(inputTime+1));
 						break;
 					}
 
 					case 2:
 					{
 						MINUTES = (*inputTime);
-						SECONDS = ((inputTime + 1)) * 10 + ((inputTime + 2));
+						SECONDS = (*(inputTime+1))*10 + (*(inputTime+2));
 						break;
 
 					}
 
 					case 3:
 					{
-						MINUTES = (*(inputTime + 1)) + (*inputTime) * 10;
-						SECONDS = ((inputTime + 2)) * 10 + ((inputTime + 3));
+						MINUTES = (*(inputTime+1)) + (*inputTime)*10;
+						SECONDS = (*(inputTime+2))*10 + (*(inputTime+3));
 						break;
 					}
-					default: break;
+				}
 			}
 			if(Start == 0) break;
 		} while (x==0xFF);
 		if (Start == 0) break;
+		if(PAUSE_BUTTON==0)break;
 		DisplayTime();
 		_delay_ms(300);
 	}
 
-	if(SECONDS>60 || MINUTES>30 || MINUTES<1)
+	if(SECONDS>60 || MINUTES>30 || (SECONDS>0 && MINUTES==30))
 	{
 		LCD_ClearScreen();
 		LCD_vSend_String("Invalid");
@@ -312,6 +327,7 @@ void EnterTime()
 		goto EnterTimeAgain;
 	}
 }
+
 void DisplayTime()
 {
 	LCD_MoveCursor(2,1);
@@ -346,7 +362,7 @@ void CalculateTime(char Mode, char kilos)
 	}
 }
 
-char CheckDoor()
+char CheckDoor(void)
 {
 	if(DOOR_BUTTON==1)
 	{
@@ -355,9 +371,9 @@ char CheckDoor()
 	return 0;
 }
 
-char ReadMode()
+unsigned char ReadMode(void)
 {
-	char x;
+	unsigned char x;
 	do
 	{
 		x = Keypad_u8Read();
