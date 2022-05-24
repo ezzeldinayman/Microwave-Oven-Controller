@@ -599,6 +599,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'A':
 	case 'a':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTA_PDR_R, pinnumber);
 	}
 	break;
@@ -606,6 +607,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'B':
 	case 'b':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTB_PDR_R, pinnumber);
 	}
 	break;
@@ -613,6 +615,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'C':
 	case 'c':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTC_PDR_R, pinnumber);
 	}
 	break;
@@ -620,6 +623,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'D':
 	case 'd':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTD_PDR_R, pinnumber);
 	}
 	break;
@@ -627,6 +631,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'E':
 	case 'e':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTE_PDR_R, pinnumber);
 	}
 	break;
@@ -634,6 +639,7 @@ void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
 	case 'F':
 	case 'f':
 	{
+		CLR_BIT(GPIO_PORTA_PUR_R, pinnumber);
 		SET_BIT(GPIO_PORTF_PDR_R, pinnumber);
 	}
 	break;
