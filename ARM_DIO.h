@@ -12,6 +12,7 @@ unsigned long DIO_u32ReadPort(unsigned char portname);
 void DIO_vEnablePullUp(unsigned char portname, unsigned char pinnumber);
 void DIO_vWriteHighNibble(unsigned char portname, unsigned long value);
 void DIO_vWriteLowNibble(unsigned char portname, unsigned long value);
+void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber);
 
 
 #endif /*__ARM_DIO_H__*/
