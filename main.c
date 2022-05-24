@@ -248,7 +248,7 @@ int main(void)
 
 char EnterWeight(char Mode)
 {
-	char kilos;
+	unsigned char kilos;
 	if(Mode == 'B')
 	{
 		LCD_ClearScreen();
@@ -407,7 +407,7 @@ char CheckDoor(void)
 
 unsigned char ReadMode(void)
 {
-	unsigned char x;
+	unsigned char x = 0xFF;
 	do
 	{
 		x = Keypad_u8Read();
