@@ -12,7 +12,7 @@
 #define PAUSE_BUTTON	Button_u8Read('F',4)
 #define DOOR_BUTTON 	Button_u8Read('A',2)
 
-enum {IDLE,COOKING,PAUSED,ENTERWEIGHT, ENTERTIME} State;
+enum {IDLE,COOKING,PAUSED,ENTERWEIGHT, ENTERTIME, FINISHED} State;
 
 volatile unsigned int totalSeconds=0;
 volatile unsigned int counter = 0;
@@ -203,6 +203,31 @@ int main(void)
 				else if(PAUSE_BUTTON == 0) State = IDLE;
 				else State=PAUSED;
 
+			}
+			break;
+			
+			case FINISHED:
+			{
+				char z;
+				LCD_ClearScreen();
+				LCD_vSend_String("Done :) ");
+				for(z=0;z<3;z++)
+				{
+					Buzzer_Off('A',3);
+					LED_OFF('F',1);
+					LED_OFF('F',2);
+					LED_OFF('F',3);
+					_delay_ms(1000);	
+						
+					Buzzer_On('A',3);
+					LED_ON('F',1);
+					LED_ON('F',2);
+					LED_ON('F',3);
+					_delay_ms(1000);	
+				}
+				Buzzer_Off('A',3);
+				LCD_ClearScreen();
+				State = IDLE;
 			}
 			break;
 		}
