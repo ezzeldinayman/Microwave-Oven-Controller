@@ -57,6 +57,10 @@ int main(void)
 				reset:
 				LCD_ClearScreen();
 				LCD_vSend_String("Enter Mode: ");
+				LED_OFF('F',2);
+				LED_OFF('F',3);
+				LED_ON('F',1);
+
 				Mode = ReadMode();
 				LCD_vSend_Char(Mode);
 				_delay_ms(500);
