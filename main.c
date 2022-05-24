@@ -29,8 +29,14 @@ char EnterWeight(char Mode);
 
 int main(void)
 {
+	unsigned char Mode;
+	char* ModeText;
+	unsigned char kilos=0;
 	LCD_vInit();
 	Keypad_vInit();
+
+
+
 	Systick_vInitInterrupt();
 	Button_vInitPullUp('F',0);
 	Button_vInitPullUp('F',4);
@@ -38,10 +44,8 @@ int main(void)
 	LED_vInit('F',1);
 	LED_vInit('F',2);
 	LED_vInit('F',3);
+	Buzzer_vInit('A',3);
 
-	char Mode;
-	char* ModeText;
-	char kilos=0;
 
 	while(1)
 	{
@@ -180,7 +184,7 @@ int main(void)
 				}
 				break;
 			}
-			
+
 			case ENTERTIME:
 			{
 				resetEnterTime:
@@ -205,7 +209,7 @@ int main(void)
 
 			}
 			break;
-			
+
 			case FINISHED:
 			{
 				char z;
@@ -217,13 +221,13 @@ int main(void)
 					LED_OFF('F',1);
 					LED_OFF('F',2);
 					LED_OFF('F',3);
-					_delay_ms(1000);	
-						
+					_delay_ms(1000);
+
 					Buzzer_On('A',3);
 					LED_ON('F',1);
 					LED_ON('F',2);
 					LED_ON('F',3);
-					_delay_ms(1000);	
+					_delay_ms(1000);
 				}
 				Buzzer_Off('A',3);
 				LCD_ClearScreen();
