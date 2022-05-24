@@ -592,6 +592,54 @@ void DIO_vWriteLowNibble(unsigned char portname, unsigned long value)
 			
 }
 
+void DIO_vEnablePullDown(unsigned char portname, unsigned char pinnumber)
+{
+	switch (portname)
+	{
+	case 'A':
+	case 'a':
+	{
+		SET_BIT(GPIO_PORTA_PDR_R, pinnumber);
+	}
+	break;
+
+	case 'B':
+	case 'b':
+	{
+		SET_BIT(GPIO_PORTB_PDR_R, pinnumber);
+	}
+	break;
+
+	case 'C':
+	case 'c':
+	{
+		SET_BIT(GPIO_PORTC_PDR_R, pinnumber);
+	}
+	break;
+
+	case 'D':
+	case 'd':
+	{
+		SET_BIT(GPIO_PORTD_PDR_R, pinnumber);
+	}
+	break;
+
+	case 'E':
+	case 'e':
+	{
+		SET_BIT(GPIO_PORTE_PDR_R, pinnumber);
+	}
+	break;
+
+	case 'F':
+	case 'f':
+	{
+		SET_BIT(GPIO_PORTF_PDR_R, pinnumber);
+	}
+	break;
+	}
+}
+
 
 
 
