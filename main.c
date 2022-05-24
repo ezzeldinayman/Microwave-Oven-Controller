@@ -5,6 +5,7 @@
 #include "Keypad.h"
 #include "Button.h"
 #include "LED.h"
+#include "Buzzer.h"
 
 #define MINUTES (*(time+1))
 #define SECONDS (*time)
