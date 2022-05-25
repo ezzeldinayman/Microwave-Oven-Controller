@@ -208,6 +208,11 @@ int main(void)
 			{
 
 				DisplayTime();
+				LED_TOG('F',1);
+				LED_TOG('F',2);
+				LED_TOG('F',3);
+				_delay_ms(200);
+				
 				if(START_BUTTON == 0) State = COOKING;
 				else if(PAUSE_BUTTON == 0) State = IDLE;
 				else State=PAUSED;
