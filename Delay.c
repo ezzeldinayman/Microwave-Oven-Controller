@@ -12,7 +12,7 @@ void _delay_OneMs(void)
 		TIMER0_CFG_R = 0x00;						
 		SET_BIT(TIMER0_TAMR_R,1); 	
 		CLR_BIT(TIMER0_TAMR_R,4);
-		TIMER0_TAILR_R = 79999;	
+		TIMER0_TAILR_R = 16000-1;	
 		SET_BIT(TIMER0_CTL_R,0);	
 		while(1)
 		{
