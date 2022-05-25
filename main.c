@@ -127,23 +127,32 @@ int main(void)
 
 			case COOKING:
 			{
+				char doorFlag = 0;
 				LCD_ClearRow(1);
 				LCD_vSend_String(ModeText);
-				char doorFlag = 1;
+				LED_ON('F',1);
+				LED_ON('F',2);
+				LED_ON('F',3);
+				
 				ConvertToSecond();
-				while (totalSeconds >= 0)
+				while(totalSeconds>0) ///////////////////////////////////////////////
 				{
 					UpdateTime();
 					DisplayTime();
 					doorFlag = CheckDoor();
-					if (doorFlag == 1)
+					if(totalSeconds==0)
+					{
+							State = FINISHED;
+							break;
+					}
+					if(doorFlag == 1)
 					{
 						LCD_ClearRow(1);
 						LCD_vSend_String("PAUSED");
 						State = PAUSED;
 						break;
 					}
-					if (PAUSE_BUTTON == 0)
+					if(PAUSE_BUTTON==0)
 					{
 						State = PAUSED;
 						_delay_ms(250);
@@ -152,7 +161,8 @@ int main(void)
 						break;
 					}
 				}
-				if (State != PAUSED) State = IDLE;
+				
+				if(State!=PAUSED && State != FINISHED) State = IDLE;
 			}
 			break;
 
